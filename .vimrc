@@ -93,6 +93,13 @@ augroup filetype_indent
     autocmd BufNewFile,BufRead *.css setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
+" Color column settings for each filetype
+augroup filetype_colorcolumn
+    autocmd!
+    set colorcolumn=101
+    autocmd BufNewFile,BufRead COMMIT_EDITMSG set colorcolumn=73
+augroup END
+
 
 """""""""""""
 "  Editing  "
