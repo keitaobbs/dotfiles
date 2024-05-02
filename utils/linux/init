@@ -1,0 +1,15 @@
+#!/bin/sh
+
+mount -t proc none /proc
+mount -t sysfs none /sys
+
+cat <<!
+
+
+Terminate Execution: Ctrl+a x
+Enter Monitor Mode: Ctrl+a c
+
+
+!
+
+exec /bin/sh
