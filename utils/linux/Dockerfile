@@ -22,5 +22,3 @@ RUN wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.43.tar.xz
 RUN mkdir -p linux && tar xf linux-6.1.43.tar.xz -C linux --strip-components 1
 RUN wget https://busybox.net/downloads/busybox-1.36.1.tar.bz2
 RUN mkdir -p busybox && tar xf busybox-1.36.1.tar.bz2 -C busybox --strip-components 1
-COPY Makefile.docker /root
-COPY init /root
