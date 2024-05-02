@@ -2,7 +2,7 @@
 obj-m += lkm_sample.o
 
 all:
-	make -C /root/linux M=$(PWD) modules
+	ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) make -C /root/linux M=$(PWD) modules
 
 clean:
 	make -C /root/linux M=$(PWD) clean

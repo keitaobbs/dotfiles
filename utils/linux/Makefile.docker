@@ -1,39 +1,51 @@
-.PHONY: linux-defconfig build-linux-arm64 clean-linux \
-		build-lkm-arm64 clean-lkm \
-		busybox-defconfig build-busybox-arm64 clean-busybox build-initramfs
+.PHONY: defconfig-linux build-linux clean-linux \
+		build-lkm clean-lkm \
+		defconfig-busybox build-busybox clean-busybox build-initramfs
 
-linux-defconfig:
-	@cd linux; \
-		make defconfig
+ARCH = arm64
 
-build-linux-arm64:
+ifeq ($(ARCH),arm64)
+CROSS_COMPILE = aarch64-linux-gnu-
+TARGET_IMAGE = Image
+else ifeq ($(ARCH),x86_64)
+CROSS_COMPILE = x86_64-linux-gnu-
+TARGET_IMAGE = bzImage
+else
+$(error Unsupported architecture '$(ARCH)' is specified)
+endif
+
+defconfig-linux:
 	@cd linux; \
-		ARCH="arm64" CROSS_COMPILE="aarch64-linux-gnu-" make Image dtbs modules
-	@cp linux/arch/arm64/boot/Image .
+		ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) make defconfig
+
+build-linux:
+	@cd linux; \
+		ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) make $(TARGET_IMAGE) modules
+	@cp linux/arch/$(ARCH)/boot/$(TARGET_IMAGE) .
 
 clean-linux:
 	@cd linux; \
 		make clean && \
 		make mrproper
 
-build-lkm-arm64:
+build-lkm:
 	@cd lkm_sample; \
-		ARCH="arm64" CROSS_COMPILE="aarch64-linux-gnu-" make
+		ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) make
 
 clean-lkm:
 	@cd lkm_sample; \
 		make clean
 
-busybox-defconfig:
+defconfig-busybox:
 	@cd busybox; \
-		make defconfig && \
+		ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) make defconfig && \
 		sed -i "s/^.*CONFIG_STATIC[= ].*$$/CONFIG_STATIC=y/g" .config && \
 		sed -i "s/^.*CONFIG_STATIC_LIBGCC[= ].*$$/CONFIG_STATIC_LIBGCC=y/g" .config && \
 		sed -i "s/^.*CONFIG_TC[= ].*$$/CONFIG_TC=n/g" .config
 
-build-busybox-arm64:
+build-busybox:
 	@cd busybox; \
-		ARCH="arm64" CROSS_COMPILE="aarch64-linux-gnu-" make install
+		ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) make install
 
 clean-busybox:
 	@cd busybox; \
