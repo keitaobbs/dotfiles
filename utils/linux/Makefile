@@ -3,6 +3,7 @@
 push:
 	@docker-compose cp Makefile.docker kbuild:/root
 	@docker-compose cp init kbuild:/root
+	@docker-compose cp lkm_sample kbuild:/root
 
 pull:
 	@docker-compose cp kbuild:/root/Image .

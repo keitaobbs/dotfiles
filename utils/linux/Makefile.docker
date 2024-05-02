@@ -1,4 +1,5 @@
 .PHONY: linux-defconfig build-linux-arm64 clean-linux \
+		build-lkm-arm64 clean-lkm \
 		busybox-defconfig build-busybox-arm64 clean-busybox build-initramfs
 
 linux-defconfig:
@@ -14,6 +15,14 @@ clean-linux:
 	@cd linux; \
 		make clean && \
 		make mrproper
+
+build-lkm-arm64:
+	@cd lkm_sample; \
+		ARCH="arm64" CROSS_COMPILE="aarch64-linux-gnu-" make
+
+clean-lkm:
+	@cd lkm_sample; \
+		make clean
 
 busybox-defconfig:
 	@cd busybox; \
@@ -33,6 +42,7 @@ clean-busybox:
 
 build-initramfs:
 	@cp init busybox/_install
+	@cp lkm_sample/lkm_sample.ko busybox/_install
 	@cd busybox/_install; \
 		mkdir -p dev home mnt proc sys tmp var && \
 		chmod +x init && \
