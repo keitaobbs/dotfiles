@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     git \
     wget \
     cpio \
+    dosfstools \
     gcc-x86-64-linux-gnu \
     gcc-aarch64-linux-gnu \
     && apt-get clean \

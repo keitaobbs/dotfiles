@@ -4,3 +4,4 @@ services:
     kbuild:
         build: .
         command: /bin/sh -c "while :; do sleep 10; done"
+        privileged: true

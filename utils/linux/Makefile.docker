@@ -60,3 +60,7 @@ build-initramfs:
 		chmod +x init && \
 		find . | cpio -o -H newc | gzip > ../rootfs.img
 	@cp busybox/rootfs.img .
+
+sd.img:
+	@dd if=/dev/null of=sd.img bs=1M seek=256
+	@mkfs.vfat sd.img
