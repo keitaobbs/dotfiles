@@ -1,0 +1,15 @@
+android_app {
+    name: "SampleActivity",
+    manifest: "activity/src/main/AndroidManifest.xml",
+    srcs: [
+        "activity/src/main/**/*.java",
+    ],
+    resource_dirs: [
+        "activity/src/main/res",
+    ],
+    static_libs: [
+        "androidx-constraintlayout_constraintlayout",
+    ],
+    platform_apis: true,
+    certificate: "platform",
+}
