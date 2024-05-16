@@ -5,7 +5,7 @@ ARCH = arm64
 ifeq ($(ARCH),arm64)
 QEMU = qemu-system-aarch64
 MACHINE = virt
-CPU = cortex-a53
+CPU = cortex-a76
 CONSOLE = ttyAMA0
 IMAGE = Image
 else ifeq ($(ARCH),x86_64)
