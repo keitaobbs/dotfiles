@@ -1,0 +1,54 @@
+[
+    // Sidebar
+    {
+        "key": "ctrl+h",
+        "command": "workbench.action.focusSideBar",
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+t",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "editorFocus || terminalFocus"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "workbench.action.toggleSidebarVisibility"
+    },
+    {
+        "key": "ctrl+j",
+        "command": "workbench.action.nextSideBarView",
+        "when": "!editorFocus"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "workbench.action.previousSideBarView",
+        "when": "!editorFocus"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.focusFirstEditorGroup",
+        "when": "!editorFocus"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.navigateEditorGroups",
+        "when": "!editorFocus"
+    },
+
+    // Misc
+    {
+        "key": "ctrl+[",
+        "command": "workbench.action.closeQuickOpen",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+[",
+        "command": "closeReferenceSearch",
+        "when": "referenceSearchVisible && !config.editor.stablePeek"
+    },
+    {
+        "key": "ctrl+[",
+        "command": "closeFindWidget",
+        "when": "editorFocus && findWidgetVisible"
+    }
+]
