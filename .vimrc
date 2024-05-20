@@ -355,7 +355,10 @@ let g:fzf_tags_command='ctags -R'
 
 " quickrun
 nnoremap <silent> <Leader>p :QuickRun<CR>
-let g:quickrun_config={'*': {'split': 'vertical'}}
+let g:quickrun_config={
+\   '*': {'split': 'vertical'},
+\   'cpp': {'cmdopt': '--std=gnu++17'},
+\}
 
 " vim-trailing-whitespace
 augroup whitespace
