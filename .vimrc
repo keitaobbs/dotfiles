@@ -100,6 +100,17 @@ augroup filetype_colorcolumn
     autocmd BufNewFile,BufRead COMMIT_EDITMSG set colorcolumn=73
 augroup END
 
+augroup annotation_highlight
+  autocmd!
+  autocmd WinEnter,BufRead,BufNew,Syntax * :silent! call matchadd('SuccessAnnot', '\(WIP\):')
+  autocmd WinEnter,BufRead,BufNew,Syntax * :silent! call matchadd('DangerAnnot', '\(TODO\):')
+  autocmd WinEnter,BufRead,BufNew,Syntax * :silent! call matchadd('WarningAnnot', '\(NOTE\):')
+  autocmd WinEnter,BufRead,BufNew,Syntax * :silent! call matchadd('InfoAnnot', '\(INFO\):')
+  autocmd WinEnter,BufRead,BufNew,Syntax * highlight SuccessAnnot guibg=darkgreen guifg=White
+  autocmd WinEnter,BufRead,BufNew,Syntax * highlight DangerAnnot guibg=darkred guifg=White
+  autocmd WinEnter,BufRead,BufNew,Syntax * highlight WarningAnnot guibg=darkorange guifg=White
+  autocmd WinEnter,BufRead,BufNew,Syntax * highlight InfoAnnot guibg=darkcyan guifg=White
+augroup END
 
 """""""""""""
 "  Editing  "
