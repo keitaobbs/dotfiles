@@ -383,11 +383,12 @@ let g:ale_sign_column_always=1
 " https://github.com/dense-analysis/ale/blob/master/supported-tools.md
 let g:ale_linters={
 \   'c': ['gcc'],
-\   'cpp': ['gcc'],
+\   'cpp': ['gcc --std=gnu++17'],
 \   'ruby': ['rubocop'],
 \}
 let g:ale_fixers={
 \   'ruby': ['rubocop'],
+\   'cpp': ['clang-format'],
 \}
 " Lint only when files are saved
 let g:ale_lint_on_text_changed='never'
