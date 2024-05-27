@@ -14,4 +14,5 @@ Enter Monitor Mode: Ctrl+a c
 
 !
 
-exec /bin/sh
+# Launch shell with job control turned on
+setsid cttyhack /bin/sh
