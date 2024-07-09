@@ -279,6 +279,7 @@ nnoremap sp gT
 nnoremap st :<C-u>tabnew<CR>
 
 " toggles
+nnoremap <silent> <Leader>tb :Git blame<CR>
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
 nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 
