@@ -387,10 +387,12 @@ let g:ale_linters={
 \   'c': ['gcc'],
 \   'cpp': ['gcc --std=gnu++17'],
 \   'ruby': ['rubocop'],
+\   'rust': ['cargo'],
 \}
 let g:ale_fixers={
 \   'ruby': ['rubocop'],
 \   'cpp': ['clang-format'],
+\   'rust': ['rustfmt'],
 \}
 " Lint only when files are saved
 let g:ale_lint_on_text_changed='never'
