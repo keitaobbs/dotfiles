@@ -356,10 +356,27 @@ let g:undotree_WindowLayout=2
 let g:fzf_tags_command='ctags -R'
 
 " quickrun
-nnoremap <silent> <Leader>p :QuickRun<CR>
+let g:my_quickrun_args=''
+function! MyQuickRunSetArgs()
+    let g:my_quickrun_args=input('Enter arguments: ')
+endfunction
+command! MyQuickRunSetArgs call MyQuickRunSetArgs()
+
+function! MyQuickRunWithArgs()
+    execute 'QuickRun -args "' . g:my_quickrun_args . '"'
+endfunction
+command! MyQuickRunWithArgs call MyQuickRunWithArgs()
+
+nnoremap <silent> <Leader>qs :MyQuickRunSetArgs<CR>
+nnoremap <silent> <Leader>qr :MyQuickRunWithArgs<CR>
+
 let g:quickrun_config={
 \   '*': {'split': 'vertical'},
 \   'cpp': {'cmdopt': '--std=gnu++17'},
+\   'python': {
+\       'command': 'python3',
+\       'exec': '%c %s %a',
+\   },
 \}
 
 " vim-trailing-whitespace
