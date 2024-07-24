@@ -1,0 +1,4 @@
+identity "John Doe"
+    hostname localhost:2025
+    username john.doe@example.com
+    password "password"
