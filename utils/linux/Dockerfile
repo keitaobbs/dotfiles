@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     gcc-x86-64-linux-gnu \
     gcc-aarch64-linux-gnu \
     ack \
+    universal-ctags \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
