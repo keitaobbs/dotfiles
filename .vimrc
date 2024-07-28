@@ -195,9 +195,9 @@ endif
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Theme
-colorscheme Base2Tone_MallDark
+colorscheme Base2Tone_FieldDark
 " airline
-let g:airline_theme='Base2Tone_MallDark'
+let g:airline_theme='Base2Tone_FieldDark'
 
 " Enable transparent background
 " set bg=dark
