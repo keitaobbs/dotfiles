@@ -269,6 +269,10 @@ tnoremap <S-l> $
 tnoremap <S-h> ^
 tnoremap jj <ESC>
 
+" completion
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
+
 " tab
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
