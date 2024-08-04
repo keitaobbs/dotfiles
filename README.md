@@ -13,7 +13,9 @@
 Small `escape-time` may prevent tmux from recognizing escape sequences that are fragmented across
 packet boundaries. You should raise `escape-time` to a reasonable value such as 100ms.
 
-### Zsh not installed and no sudo access
+## Tips
+
+### Install zsh without root privileges
 
 You can use [zsh-bin](https://github.com/romkatv/zsh-bin "zsh-bin") repository.
 
@@ -28,7 +30,7 @@ Choose installation directory for Zsh 5.8:
 Choice: 2
 ```
 
-### Ack not installed and no sudo access
+### Install ack without root privileges
 
 ```bash
 $ curl https://beyondgrep.com/ack-v3.7.0 > ~/.local/bin/ack && chmod 0755 ~/.local/bin/ack
