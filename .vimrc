@@ -33,7 +33,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'scrooloose/nerdtree'
     Plug 'jistr/vim-nerdtree-tabs'
     Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-    Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+    Plug 'itchyny/lightline.vim'
     " Comment stuff out
     Plug 'tpope/vim-commentary'
     Plug 'machakann/vim-highlightedyank'
@@ -67,6 +67,8 @@ call plug#begin('~/.vim/plugged')
     "  Misc  "
     """"""""""
     Plug 'atelierbram/Base2Tone-vim'
+    Plug 'nordtheme/vim'
+    Plug 'fxn/vim-monochrome'
 call plug#end()
 
 
@@ -195,12 +197,16 @@ endif
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Theme
-colorscheme Base2Tone_FieldDark
-" airline
-let g:airline_theme='Base2Tone_FieldDark'
+set bg=dark
+let g:monochrome_italic_comments=1
+colorscheme monochrome
+" Override SignColumn color settings of the colorscheme
+highlight SignColumn ctermbg=black guibg=black
+let g:lightline={
+\   'colorscheme': 'nord',
+\}
 
 " Enable transparent background
-" set bg=dark
 " highlight Normal ctermbg=NONE guibg=NONE
 " highlight NonText ctermbg=NONE guibg=NONE
 " highlight LineNr ctermbg=NONE guibg=NONE
