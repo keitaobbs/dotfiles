@@ -200,20 +200,18 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set bg=dark
 let g:monochrome_italic_comments=1
 colorscheme monochrome
-" Override SignColumn color settings of the colorscheme
-highlight SignColumn ctermbg=black guibg=black
 let g:lightline={
 \   'colorscheme': 'nord',
 \}
 
-" Enable transparent background
-" highlight Normal ctermbg=NONE guibg=NONE
-" highlight NonText ctermbg=NONE guibg=NONE
-" highlight LineNr ctermbg=NONE guibg=NONE
-" highlight Folded ctermbg=NONE guibg=NONE
-" highlight SpecialKey ctermbg=NONE guibg=NONE
-" highlight EndOfBuffer ctermbg=NONE guibg=NONE
-
+" Override background color of the colorscheme
+highlight Normal ctermbg=black guibg=black
+highlight NonText ctermbg=black guibg=black
+highlight LineNr ctermbg=black guibg=black
+highlight Folded ctermbg=black guibg=black
+highlight SpecialKey ctermbg=black guibg=black
+highlight EndOfBuffer ctermbg=black guibg=black
+highlight SignColumn ctermbg=black guibg=black
 
 """"""""""""
 "  Search  "
