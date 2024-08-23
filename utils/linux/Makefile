@@ -21,7 +21,6 @@ endif
 push:
 	@docker-compose cp Makefile.docker kbuild:/root
 	@docker-compose cp init kbuild:/root
-	@docker-compose cp lkm_sample kbuild:/root
 
 pull: sd.img
 	@docker-compose cp kbuild:/root/$(IMAGE) .

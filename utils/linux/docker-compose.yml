@@ -4,4 +4,6 @@ services:
     kbuild:
         build: .
         command: /bin/sh -c "while :; do sleep 10; done"
+        volumes:
+            - ./lkm_sample:/root/lkm_sample
         privileged: true
