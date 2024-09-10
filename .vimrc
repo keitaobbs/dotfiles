@@ -67,8 +67,7 @@ call plug#begin('~/.vim/plugged')
     "  Misc  "
     """"""""""
     Plug 'atelierbram/Base2Tone-vim'
-    Plug 'nordtheme/vim'
-    Plug 'fxn/vim-monochrome'
+    Plug 'zenbones-theme/zenbones.nvim'
 call plug#end()
 
 
@@ -198,20 +197,19 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Theme
 set bg=dark
-let g:monochrome_italic_comments=1
-colorscheme monochrome
+colorscheme nordbones
 let g:lightline={
 \   'colorscheme': 'nord',
 \}
 
 " Override background color of the colorscheme
-highlight Normal ctermbg=black guibg=black
-highlight NonText ctermbg=black guibg=black
-highlight LineNr ctermbg=black guibg=black
-highlight Folded ctermbg=black guibg=black
-highlight SpecialKey ctermbg=black guibg=black
-highlight EndOfBuffer ctermbg=black guibg=black
-highlight SignColumn ctermbg=black guibg=black
+" highlight Normal ctermbg=black guibg=black
+" highlight NonText ctermbg=black guibg=black
+" highlight LineNr ctermbg=black guibg=black
+" highlight Folded ctermbg=black guibg=black
+" highlight SpecialKey ctermbg=black guibg=black
+" highlight EndOfBuffer ctermbg=black guibg=black
+" highlight SignColumn ctermbg=black guibg=black
 
 """"""""""""
 "  Search  "
