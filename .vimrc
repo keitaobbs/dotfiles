@@ -197,10 +197,14 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Theme
 set bg=dark
-colorscheme nordbones
+colorscheme rosebones
 let g:lightline={
-\   'colorscheme': 'nord',
+\   'colorscheme': 'rosepine',
 \}
+" Show lightline anytime
+set laststatus=2
+" Hide the mode information as lightline will display it
+set noshowmode
 
 " Override background color of the colorscheme
 " highlight Normal ctermbg=black guibg=black
