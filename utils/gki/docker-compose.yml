@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+    gki:
+        build: .
+        command: /bin/sh -c "while :; do sleep 10; done"
+        privileged: true
