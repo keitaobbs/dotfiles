@@ -1,0 +1,85 @@
+@startuml
+
+title KVM/QEMU: How It Works
+
+top to bottom direction
+skinparam componentStyle rectangle
+
+package "QEMU Process" {
+  package "Virtual Machine" {
+    [Application]
+    package "Guest Linux Kernel" {
+      [Virtio Drivers]
+    }
+  }
+  note as virtual_machine_note
+    QEMU initializes virtual machine via /dev/kvm.
+    ioctl(KVM_SET_USER_MEMORY_REGION) is used to create, modify or delete a guest physical memory slot.
+    --
+    kvmfd = open("/dev/kvm", O_RDWR);
+    vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
+    ioctl(vmfd, KVM_SET_USER_MEMORY_REGION, &mem);
+  end note
+  virtual_machine_note - "Virtual Machine"
+  package "Frontend: Virtual Devices by QEMU" {
+    [virtio-net]
+    [virtio-serial]
+    [virtio-blk]
+    note left
+      virtio-blk is a virtual block device created by QEMU.
+      virtio_blk module in the guest kernel will handle it.
+    end note
+  }
+  package "Virtual Devices by KVM+QEMU" {
+    [vCPUs]
+    note left
+      QEMU launches a thread for each vCPU and create vCPU via ioctl(KVM_CREATE_VCPU).
+      Each vCPU thread requests actual CPU to start execution via ioctl(KVM_RUN).
+      (This is called VMEntry in x86 context.)
+      ioctl(KVM_RUN) results in the thread switching to the guest vCPU context.
+      That means all vCPU threads are scheduled like any other userspace tasks by host kernel.
+    end note
+    [Memory for VM]
+    note left
+      QEMU assigns memory via ioctl(KVM_SET_USER_MEMORY_REGION).
+    end note
+  }
+}
+"Application" -down- "Guest Linux Kernel"
+"Virtio Drivers" -down- "Frontend: Virtual Devices by QEMU"
+"Virtual Machine" -down- "Virtual Devices by KVM+QEMU"
+
+package "Host Linux Kernel" {
+  package "KVM" {
+      [/dev/kvm]
+  }
+  package "Backend: Drivers for Virtual Devices by QEMU" {
+      [File System + Block Device Driver]
+      [Tap Driver]
+  }
+}
+"vCPUs" -down- "/dev/kvm"
+"Memory for VM" -down- "/dev/kvm"
+"virtio-blk" -down- "File System + Block Device Driver"
+"virtio-net" -down- "Tap Driver"
+
+package "Hardware" {
+    [CPU]
+    note bottom
+      Some guest instructions can not be executed by CPU.
+      In that case, CPU stop guest execution and return the information via exit_reason field of kvm_run struct.
+      (This is called VMExit in x86 context.)
+      --
+      KVM_EXIT_IO: a port I/O instruction which could not be satisfied by kvm
+      KVM_EXIT_MMIO: a memory-mapped I/O instruction which could not be satisfied by kvm
+    end note
+    [Memory]
+    [Storage]
+    [NIC]
+}
+"/dev/kvm" -down- "CPU"
+"/dev/kvm" -down- "Memory"
+"File System + Block Device Driver" -down- "Storage"
+"Tap Driver" -down- "NIC"
+
+@enduml
