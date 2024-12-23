@@ -391,7 +391,8 @@ let g:quickrun_config={
 
 " vim-trailing-whitespace
 augroup whitespace
-    autocmd BufWritePre * :FixWhitespace
+    autocmd!
+    autocmd BufWritePre * if &filetype != 'markdown' | execute ':FixWhitespace' | endif
 augroup END
 
 " indentLine
