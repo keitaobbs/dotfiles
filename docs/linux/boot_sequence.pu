@@ -1,0 +1,90 @@
+@startuml
+
+title Boot Sequence
+
+:Power On;
+
+group Firmware
+    group BIOS
+        :POST (Power-On Self-Test);
+        note right
+            Detects available RAM, and
+            pre-initializes the CPU and hardware.
+        end note
+        :Look for bootable disks;
+        :Load bootloader into memory;
+        note right
+            Bootloader is a 512-byte portion of
+            executable code stored at the disk’s
+            beginning (MBR: Master Boot Record).
+            Most bootloaders are larger than 512 bytes,
+            so bootloaders are commonly split into
+            multiple stages.
+            ====
+            Bootloader: 446 bytes
+            Partition Table: 64 bytes
+            Boot Signature (0x55AA): 2 bytes
+        end note
+    end group
+end group
+
+group Bootloader
+    group GRUB
+        :Load kernel image, FDT, and ramdisk into memory;
+        note right
+            GRUB is a Multiboot-compliant bootloader.
+            Multiboot is a standard which defines an
+            interface between the bootloader and the
+            operating system.
+            Attaching Multiboot header at the beginning
+            of the kernel image makes it possible to
+            customize the behavior of GRUB when it loads
+            the kernel.
+        end note
+        :Call kernel entry point (e.g. start_kernel);
+    end group
+end group
+
+group Operating System
+    group Linux Kernel
+        :Early initialization;
+        note right
+            - Devicetree
+            - Hardware (CPU, Memory, I/O Devices, etc)
+            - Page Table
+            - IRQ
+            - Timer
+            - etc
+        end note
+        :Mount ramdisk;
+        note right
+            Kernel can know the address and the size of
+            ramdisk via kernel cmdline or devicetree.
+            For example, the chosen node of devicetree
+            can be used to pass data between firmware
+            and the operating system, like boot
+            arguments.
+            ====
+            chosen {
+                linux,initrd-start = <0x82000000>;
+                linux,initrd-end = <0x82800000>;
+            };
+        end note
+        :Launch init process;
+        note right
+            Kernel tries to launch init process. init
+            cmdline option can be used to specify the
+            binary to be executed as init process.
+            ====
+            start_kernel() {
+                arch_call_rest_init() {
+                    rest_init() {
+                        kernel_thread(kernel_init, NULL, CLONE_FS);
+                    }
+                }
+            }
+        end note
+    end group
+end group
+
+@enduml
