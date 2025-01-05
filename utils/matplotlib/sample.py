@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 from mplext import *
 
 common_graph_style()
-nrow = 4
-ncol = 2
+nrow = 3
+ncol = 3
 fig = plt.figure(figsize=(8*ncol, 6*nrow))
 ax1 = fig.add_subplot(nrow, ncol, 1)
 ax2 = fig.add_subplot(nrow, ncol, 2)
