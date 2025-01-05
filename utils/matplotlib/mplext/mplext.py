@@ -79,6 +79,30 @@ def plot_bar(
         ax.set_title(title)
 
 
+def plot_barh(
+        ax: Axes, items: list[Item],
+        title: str = None, xlabels: list[str] = None, ylabel: str = None):
+    normalized_y = [np.array(item.y) for item in items]
+    normalized_y /= sum(normalized_y)
+    normalized_y *= 100
+    cumulative_y = np.cumsum(normalized_y, axis=0)
+
+    for i, item in enumerate(items):
+        ax.barh(item.x, cumulative_y[i], label=item.legend, zorder=(
+            len(items) - i), **item.plot_opts)
+
+    if xlabels is not None:
+        ax.set_yticks(items[0].x, xlabels)
+
+    if ylabel is not None:
+        ax.set_xlabel(ylabel)
+
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2)
+
+    if title is not None:
+        ax.set_title(title)
+
+
 def plot_line(
         ax: Axes, items: list[Item],
         title: str = None, xlabel: str = None, ylabel: str = None):
