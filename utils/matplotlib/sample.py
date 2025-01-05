@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from mplext import *
 
 common_graph_style()
-nrow = 3
+nrow = 4
 ncol = 2
 fig = plt.figure(figsize=(8*ncol, 6*nrow))
 ax1 = fig.add_subplot(nrow, ncol, 1)
@@ -11,6 +11,7 @@ ax3 = fig.add_subplot(nrow, ncol, 3)
 ax4 = fig.add_subplot(nrow, ncol, 4)
 ax5 = fig.add_subplot(nrow, ncol, 5)
 ax6 = fig.add_subplot(nrow, ncol, 6)
+ax7 = fig.add_subplot(nrow, ncol, 7)
 
 items = [
     Item('legend1', [0, 1], [50, 55]),
@@ -56,6 +57,12 @@ items = [
     Item('legend4', None, [700]),
 ]
 plot_pie(ax6, items, title='pie')
+
+items = [
+    Item('legend1', [1, 2, 4, 6, 9], [15, 24, 42, 60, 91]),
+    Item('legend2', [1, 5, 7, 8, 9], [80, 20, 40, 50, 12]),
+]
+plot_scatter(ax7, items, title='scatter', xlabel='xlabel', ylabel='ylabel')
 
 fig.tight_layout()
 # plt.show()

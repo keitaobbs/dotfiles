@@ -141,3 +141,22 @@ def plot_pie(
 
     if title is not None:
         ax.set_title(title)
+
+
+def plot_scatter(
+        ax: Axes, items: list[Item],
+        title: str = None, xlabel: str = None, ylabel: str = None):
+
+    for item in items:
+        ax.scatter(item.x, item.y, label=item.legend, **item.plot_opts)
+
+    if xlabel is not None:
+        ax.set_xlabel(xlabel)
+
+    if ylabel is not None:
+        ax.set_ylabel(ylabel)
+
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2)
+
+    if title is not None:
+        ax.set_title(title)
