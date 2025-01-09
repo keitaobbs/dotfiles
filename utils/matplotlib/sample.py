@@ -19,13 +19,13 @@ items = [
     Item('legend3', [0, 1], [13, 86]),
 ]
 plot_bar(ax1, items, title='bar', xlabels=[
-         'xlabel1', 'xlabel2'], ylabels=['ylabel'])
+         'xlabel1', 'xlabel2'], ylabels=['ylabel'], ylim=(0, 100), rotation=60)
 
 items = [
     Item('legend1', [0, 1, 2], [50, 55, 59]),
 ]
-plot_bar(ax2, items, title='bar', xlabels=[
-         'xlabel1', 'xlabel2', 'xlabel3'], ylabels=['ylabel'])
+plot_bar(ax2, items, title='bar', xlabels=['xlabel1', 'xlabel2', 'xlabel3'], ylabels=['ylabel'],
+         ylim=(0, 100), value_format=lambda v: f'{v:.1f}')
 
 items = [
     Item('legend1', [0, 1, 2], [50, 55, 59]),
