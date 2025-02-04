@@ -21,3 +21,15 @@ void pm_stay_awake(struct device *dev);
 void __pm_relax(struct wakeup_source *ws);
 void pm_relax(struct device *dev);
 ```
+
+## IRQ handler is not called as expected throughout suspend/resume
+
+IRQ handler is registered by the following functions.
+
+```c
+static inline int __must_check
+request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
+            const char *name, void *dev);
+```
+
+If `IRQF_NO_SUSPEND` flag is not specified, IRQ is disabled on suspend by `suspend_device_irqs`.
