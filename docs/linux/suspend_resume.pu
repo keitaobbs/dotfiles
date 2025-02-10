@@ -1,0 +1,108 @@
+@startuml
+
+title Suspend/Resume
+
+start
+note right
+    See pm_suspend() for details.
+end note
+
+:Sync filesystems;
+
+:Execute registered notifiers for PM_SUSPEND_PREPARE;
+note right
+    A suspend notifier can be used to do some preparation for suspend
+    before freezing processes. To register and/or unregister a suspend
+    notifier use register_pm_notifier() and unregister_pm_notifier(),
+    respectively.
+end note
+
+:Freeze processes;
+note right
+    Freeze user processes first.
+    After that, freezable kernel threads are freezed as well.
+    Note that all the freezed tasks are executing __refrigerator().
+end note
+
+:Execute prepare callbacks for devices;
+
+:Execute suspend callbacks for devices;
+note right
+    Device driver can enable the irq wakeup capability
+    via enable_irq_wake().
+end note
+
+:Execute suspend_late callbacks for devices;
+
+:Suspend device irqs;
+note right
+    Disable all interrupts and mark them IRQS_SUSPENDED except
+    for those which are marked as active wakeup sources and
+    those which are marked as not suspendable via an interrupt
+    request with the flag IRQF_NO_SUSPEND set.
+    In addition, set IRQD_WAKEUP_ARMED to wakeup capable irqs.
+end note
+
+:Execute suspend_noirq callbacks for devices;
+
+if (Entering PM_SUSPEND_TO_IDLE?) then (yes)
+    :s2idle loop;
+    note right
+        Push all the CPUs into the idle loop and wait for s2idle_state
+        to become S2IDLE_STATE_WAKE via s2idle_wake().
+    end note
+
+    :Any wakeup-enabled irq occurs;
+    note right
+        Generic irq handlers like handle_simple_irq(), handle_level_irq(),
+        and handle_edge_irq() are called first. irq_may_run() is called
+        before actual driver-specific handler in these generic handlers to
+        check if the irq is wakeup armed.
+        If the irq is wakeup armed, skip driver-specific handler call and
+        wake up the system by pm_system_irq_wakeup().
+    end note
+
+    :Jump to resume_noirq callbacks execution;
+
+    detach
+else (no)
+endif
+
+:Disable non-boot CPUs;
+
+:Execute all the registered system core suspend callbacks;
+
+:Enter a sleep state by suspend_ops->enter();
+note right
+    Suspend operations are initialized by suspend_set_ops().
+end note
+
+:Any wakeup-enabled irq occurs;
+note right
+    See the note of s2idle steps.
+end note
+
+:Execute all the registered system core resume callbacks;
+
+:Enable non-boot CPUs;
+
+:Execute resume_noirq callbacks for devices;
+
+:Resume device irqs;
+note right
+    Enable interrupt lines which were disabled by suspend_device_irqs().
+end note
+
+:Execute resume_early callbacks for devices;
+
+:Execute resume callbacks for devices;
+
+:Execute complete callbacks for devices;
+
+:Restart processes;
+
+:Execute registered notifiers for PM_POST_SUSPEND;
+
+stop
+
+@enduml
