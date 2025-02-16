@@ -68,6 +68,7 @@ call plug#begin('~/.vim/plugged')
     """"""""""
     Plug 'atelierbram/Base2Tone-vim'
     Plug 'zenbones-theme/zenbones.nvim'
+    Plug 'rafi/awesome-vim-colorschemes'
 call plug#end()
 
 
@@ -197,9 +198,10 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Theme
 set bg=dark
-colorscheme rosebones
+colorscheme molokai
+" See https://github.com/itchyny/lightline.vim/blob/master/colorscheme.md
 let g:lightline={
-\   'colorscheme': 'rosepine',
+\   'colorscheme': 'molokai',
 \}
 " Show lightline anytime
 set laststatus=2
