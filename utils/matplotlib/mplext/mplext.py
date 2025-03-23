@@ -187,8 +187,8 @@ def plot_pie(
 
     if show_legend is True:
         legends = [f'{item.legend}: {item.y[0]}' for item in items]
-        ax.legend(legends, loc='center left',
-                  bbox_to_anchor=(1, 0.5), ncol=legend_ncol)
+        ax.legend(legends, loc='upper center',
+                  bbox_to_anchor=(0.5, 0), ncol=legend_ncol)
 
     if title is not None:
         ax.set_title(title)

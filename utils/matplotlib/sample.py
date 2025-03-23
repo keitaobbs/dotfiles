@@ -56,7 +56,7 @@ items = [
     Item('legend3', None, [200]),
     Item('legend4', None, [700]),
 ]
-plot_pie(ax6, items, title='pie')
+plot_pie(ax6, items, title='pie', legend_ncol=2)
 
 items = [
     Item('legend1', [1, 2, 4, 6, 9], [15, 24, 42, 60, 91]),
