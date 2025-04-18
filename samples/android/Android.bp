@@ -7,9 +7,6 @@ android_app {
     resource_dirs: [
         "activity/src/main/res",
     ],
-    static_libs: [
-        "androidx-constraintlayout_constraintlayout",
-    ],
     platform_apis: true,
     certificate: "platform",
 }
