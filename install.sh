@@ -22,4 +22,17 @@ do
     fi
 done
 
+if [ ! -e $HOME/.vim/coc-settings.json ] ; then
+    ln -sv $HOME/dotfiles/coc-settings.json $HOME/.vim/coc-settings.json
+fi
+
+if [ ! -e $HOME/.vim/UltiSnips ] ; then
+    ln -sv $HOME/dotfiles/UltiSnips $HOME/.vim/UltiSnips
+fi
+
+mkdir -p $HOME/.config/efm-langserver
+if [ ! -e $HOME/.config/efm-langserver/config.yaml ] ; then
+    ln -sv $HOME/dotfiles/efm-langserver/config.yaml $HOME/.config/efm-langserver/config.yaml
+fi
+
 echo "Installation succeeded"

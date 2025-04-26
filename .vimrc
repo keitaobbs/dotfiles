@@ -57,9 +57,19 @@ call plug#begin('~/.vim/plugged')
     Plug 'SirVer/ultisnips'
     " Contain snippets files for various programming languages
     Plug 'honza/vim-snippets'
-
-    " Check syntax asynchronously and fix files with Language Server Protocol (LSP) support
-    Plug 'dense-analysis/ale'
+    " Auto completion
+    " nodejs is required
+    " See below page for supported language servers
+    " https://github.com/neoclide/coc.nvim/wiki/Language-servers
+    " Rust
+    "   rustup component add rust-src
+    " Python
+    "   :CocInstall coc-pyright
+    " Flutter
+    "   :CocInstall coc-flutter
+    " Vim/Markdown
+    "   apt install efm-langserver
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     Plug 'aklt/plantuml-syntax'
 
@@ -101,6 +111,7 @@ augroup filetype_colorcolumn
     autocmd!
     set colorcolumn=101
     autocmd BufNewFile,BufRead COMMIT_EDITMSG set colorcolumn=73
+    autocmd BufNewFile,BufRead *.md set colorcolumn=73
 augroup END
 
 augroup annotation_highlight
@@ -179,7 +190,9 @@ set display=lastline
 set wildmenu
 set wildmode=list:full
 set wildignore=*.o,*.obj,*.pyc,*.so,*.dll
-
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved
+set signcolumn=yes
 
 """"""""""""
 "  Colors  "
@@ -198,10 +211,10 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Theme
 set bg=dark
-colorscheme molokai
+colorscheme ayu
 " See https://github.com/itchyny/lightline.vim/blob/master/colorscheme.md
 let g:lightline={
-\   'colorscheme': 'molokai',
+\   'colorscheme': 'ayu_dark',
 \}
 " Show lightline anytime
 set laststatus=2
@@ -236,16 +249,18 @@ if !has('nvim')
     set viminfo+=n~/.cache/vim/viminfo
 endif
 set dir=~/.cache/vim/swap
-set noswapfile
-set backup
 set backupdir=~/.cache/vim/backup
-set undofile
 set undodir=~/.cache/vim/undo
 for d in [&dir, &backupdir, &undodir]
   if !isdirectory(d)
     call mkdir(iconv(d, &encoding, &termencoding), 'p')
   endif
 endfor
+
+set noswapfile
+set nobackup
+set nowritebackup
+set undofile
 
 
 """"""""""""""""
@@ -293,6 +308,7 @@ nnoremap st :<C-u>tabnew<CR>
 " toggles
 nnoremap <silent> <Leader>tb :Git blame<CR>
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>tr :NERDTreeFind<CR><C-w><C-w>
 nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 
 " ctags
@@ -331,20 +347,9 @@ endfunction
 
 nnoremap <Leader>ack :call AckSearch("")<left><left>
 
-" nerdtree
-nnoremap <silent> <Leader>r :NERDTreeFind<CR><C-w><C-w>
-
 " fzf
 nnoremap <silent> <Leader>f :Files<CR>
 nnoremap <silent> <Leader>g :GFiles?<CR>
-
-" ultisnips
-nnoremap <silent> <Leader>s :Snippets<CR>
-
-" ale
-nnoremap <silent> <Leader>ld :ALEDetail<CR>
-nnoremap <silent> <Leader>lf :ALEFix<CR>
-
 
 """""""""""""""""""
 "  Plugin Option  "
@@ -405,27 +410,72 @@ let g:indentLine_setConceal=0
 xmap ea <Plug>(EasyAlign)
 
 " ultisnips
-let g:UltiSnipsExpandTrigger='<TAB>'
+let g:UltiSnipsExpandTrigger='<nop>'
 
-" ale
-" Only run linters named in ale_linters settings
-let g:ale_linters_explicit=1
-let g:ale_completion_enabled=1
-let g:ale_sign_column_always=1
-" https://github.com/dense-analysis/ale/blob/master/supported-tools.md
-let g:ale_linters={
-\   'c': ['gcc'],
-\   'cpp': ['gcc --std=gnu++17'],
-\   'ruby': ['rubocop'],
-\   'rust': ['cargo'],
-\}
-let g:ale_fixers={
-\   'ruby': ['rubocop'],
-\   'cpp': ['clang-format'],
-\   'rust': ['rustfmt'],
-\}
-" Lint only when files are saved
-let g:ale_lint_on_text_changed='never'
-let g:ale_lint_on_insert_leave=0
-let g:ale_lint_on_enter=1
 
+"""""""""""""""""""""""""""
+"  Conquer of Completion  "
+"""""""""""""""""""""""""""
+" Use tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent><nowait> [g <Plug>(coc-diagnostic-prev)
+nmap <silent><nowait> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent><nowait> gd <Plug>(coc-definition)
+nmap <silent><nowait> gy <Plug>(coc-type-definition)
+nmap <silent><nowait> gi <Plug>(coc-implementation)
+nmap <silent><nowait> gr <Plug>(coc-references)
+
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code
+xmap <leader>l <Plug>(coc-format-selected)
+nmap <leader>l <Plug>(coc-format-selected)
+
+" Applying code actions to the selected code block
+xmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+" Remap keys for applying code actions at the cursor position
+nmap <leader>ac <Plug>(coc-codeaction-cursor)
+" Remap keys for apply code actions affect whole buffer
+nmap <leader>as <Plug>(coc-codeaction-source)
+
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf <Plug>(coc-fix-current)
+
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r <Plug>(coc-codeaction-refactor-selected)
+
+" Remap <C-f> and <C-b> to scroll float windows/popups
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Add `:Format` command to format current buffer
+command! -nargs=0 Format :call CocActionAsync('format')
