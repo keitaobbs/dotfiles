@@ -375,7 +375,7 @@ let g:fzf_tags_command='ctags -R'
 " quickrun
 let g:my_quickrun_args=''
 function! MyQuickRunSetArgs()
-    let g:my_quickrun_args=input('Enter arguments: ')
+    let g:my_quickrun_args=input('Enter arguments: ', g:my_quickrun_args)
 endfunction
 command! MyQuickRunSetArgs call MyQuickRunSetArgs()
 
