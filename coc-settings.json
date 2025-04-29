@@ -1,6 +1,11 @@
 {
   "suggest.noselect": true,
   "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh", "bash"]
+    },
     "rust": {
       "command": "rust-analyzer",
       "filetypes": ["rust"],
@@ -12,5 +17,8 @@
       "filetypes": ["vim", "eruby", "markdown"]
     }
   },
-  "pyright.enable": true
+  "pyright.enable": true,
+  "pyright.inlayHints.functionReturnTypes": false,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.inlayHints.parameterTypes": false
 }

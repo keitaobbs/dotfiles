@@ -61,6 +61,10 @@ call plug#begin('~/.vim/plugged')
     " nodejs is required
     " See below page for supported language servers
     " https://github.com/neoclide/coc.nvim/wiki/Language-servers
+    " Bash
+    "   apt install shellcheck
+    "   apt install shfmt
+    "   npm i -g bash-language-server
     " Rust
     "   rustup component add rust-src
     " Python
