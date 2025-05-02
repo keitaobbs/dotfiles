@@ -443,6 +443,7 @@ nmap <silent><nowait> [g <Plug>(coc-diagnostic-prev)
 nmap <silent><nowait> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation
+" Use `<C-o>` and `<C-i>` to move forward/backward in jump list
 nmap <silent><nowait> gd <Plug>(coc-definition)
 nmap <silent><nowait> gy <Plug>(coc-type-definition)
 nmap <silent><nowait> gi <Plug>(coc-implementation)
