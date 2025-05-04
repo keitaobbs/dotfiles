@@ -69,6 +69,8 @@ call plug#begin('~/.vim/plugged')
     "   rustup component add rust-src
     " Python
     "   :CocInstall coc-pyright
+    " Java
+    "   :CocInstall coc-java
     " Flutter
     "   :CocInstall coc-flutter
     " Vim/Markdown
