@@ -28,6 +28,9 @@
         "**/tags": true
     },
 
+    // Extension: background
+    "background.enabled": false,
+
     // Extension: VIM
     "vim.useSystemClipboard": true,
     "vim.useCtrlKeys": true,
@@ -212,6 +215,7 @@
 
     // Extension: Trailing Spaces
     "trailing-spaces.trimOnSave": true,
+    "trailing-spaces.syntaxIgnore": ["markdown"],
 
     // Extension: Todo Highlight
     "todohighlight.keywords": [
@@ -253,5 +257,8 @@
             "backgroundColor": "#000099",
             "isWholeLine": false
         }
-    ]
+    ],
+
+    // Extension: Markdown PDF
+    "markdown-pdf.mermaidServer": "https://unpkg.com/mermaid@10.4.0/dist/mermaid.min.js"
 }

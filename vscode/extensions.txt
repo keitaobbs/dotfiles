@@ -1,0 +1,11 @@
+Open command palette (cmd+shift+p) and select "Shell Command: Install 'code' command in PATH".
+
+$ code --list-extensions
+bierner.markdown-mermaid
+bpruitt-goddard.mermaid-markdown-syntax-highlighting
+pkief.material-icon-theme
+shalldie.background
+shardulm94.trailing-spaces
+vscodevim.vim
+wayou.vscode-todo-highlight
+yzane.markdown-pdf
