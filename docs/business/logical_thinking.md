@@ -86,12 +86,15 @@ flowchart BT
 
 ## How to Construct Pyramid Structure
 
-### 1. Start with the answer
+### 1. Define the issue and answer to it
 
 The issue and the answer to it should be defined first.
 
 Communicate your answer, conclusion or recommendation immediately, not
 at the end.
+
+When you construct pyramid structure for communication like negotiation,
+it is better to define the issue from the listener point of view.
 
 ### 2. List the questions that need to be clarified to answer the issue
 
@@ -106,3 +109,22 @@ how to sequence your arguments.
 
 Ensure that you have data that supports every argument and prevents your
 reader from disputing them.
+
+## How to validate a written document
+
+Here is the steps to validate a written document.
+
+### 1. Is the issue defined and consistently cared?
+
+### 2. Are the questions for the issue appropriate?
+
+### 3. Is evidence for each argument enough?
+
+### 4. Are the negative aspects also being mentioned?
+
+### 5. Adequately prepared for counterarguments?
+
+### 6. Easy to read from logical and visual perspective?
+
+Following CREC (Conclusion -> Reason -> Evidence/Example -> Conclusion)
+is the one of the option to make a text easy to understand.
