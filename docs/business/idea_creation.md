@@ -4,6 +4,11 @@ It is assumed that you have sufficient knowledge. __If you are thinking
 about something you are unfamilir with, you should start by expanding
 your knowledge__.
 
+## Jobs to Be Done
+
+Customers purchase goods/services to accomplish specific jobs. Thinking
+about these jobs leads to differentiation that is not superficial.
+
 ## Assumption Reversal
 
 1. List assumptions (e.g. stereotypes, preconceptions)
