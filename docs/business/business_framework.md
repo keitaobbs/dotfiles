@@ -1,79 +1,83 @@
 # Business Framework
 
-Asking AI chatbot about the suitable business framework for your
-situation is a good starting point.
+## Derive KBFs/KSFs
 
-## 6W2H
+KSFs are the critical elements a business must excel at to succeed in a
+given industry or market.
 
-- When
-- Where
-- Who
-- Whom
-- What
-- Why
-- How
-- How much
+### 1. Conduct Five Forces Analysis
 
-## QCD: Quality, Cost, Delivery
+You can understand the competitive dynamics and pressure points in the
+industry with 5F analysis. It helps determine the external factors that
+will influence success; forms the foundation for strategic alignment.
 
-- Quality
-- Cost
-- Delivery
+```
+                     +-----------+
+                     | Threat of |
+                     | New Entry |
+                     +-----------+
+                           |
+                           v
++----------+    +----------------------+    +-------+
+| Supplier | -> |    Rivalry among     | <- | Buyer |
+|  Power   |    | Existing Competitors |    | Power |
++----------+    +----------------------+    +-------+
+                           ^
+                           |
+                    +--------------+
+                    | Threat of    |
+                    | Substitution |
+                    +--------------+
+```
 
-## 3C: Customer, Competitor, Company
+### 2. Identify KBFs
 
-3C provides an overview of the market and business environment, which
-__can be used for planning strategy and identifying issues__.
+KBFs are the critical elements that influence a customer's decision to
+purchase a product or service.
 
-- Customer
-    - Target Customer
-    - Needs
-    - Market Size
-    - Trends
-- Competitor
-    - 4P
-    - Marketing Strategy
-    - Market Share
-    - Strength and Weakness
-- Company
-    - Same as Competitor
+| Segmentation/Targeting | JTBD/Needs | KBFs |
+| ---- | ---- | ---- |
+| Man | TBD | TBD |
+| Woman | TBD | TBD |
 
-## 4P: Product, Price, Place, Promotion
+### 3. Derive KSFs
 
-4P is __useful in the execution phase__. You can use 3C for planning
-strategy and use 4P for designing the execution plan.
+Let's derive KSFs from 5F analysis result and KBFs. Note that KSFs must
+be derived independently from your business circumstances.
 
-## PEST
+## Design a New Business
 
-We can analyze macro environments with PEST. It's __useful for long-term
-strategy, industry trends, external risk assessment, etc__.
+If you don't have any basic idea yet, refer to
+[idea_creation.md](./idea_creation.md).
 
-- Politics
-- Economy
-- Society
-- Technology
+Let's see the concrete example of the steps to design a new business.
 
-## SWOT
+| **Step** | **Category** | **Purpose** | **Reason/Why It Matters** |
+| ---- | ---- | ---- | ---- |
+| **1. Persona Development** | Customer Understanding | Define target customers clearly | Helps focus on specific segments, needs, and behavior patterns |
+| **2. JTBD: Jobs to Be Done** | Customer Understanding | Understand the deeper "why" behind customer behavior | Reveals unmet needs and emotional drivers behind purchasing decisions |
+| **3. Customer Journey Mapping** | Customer Understanding | Visualize the full experience from the customer’s perspective | Identifies pain points, opportunities, and key touchpoints for value delivery |
+| **4. 3C Analysis (Company, Customer, Competitor)** | Market & Environment Analysis | Evaluate internal capabilities, customer needs, and market position | Helps determine where you can win and how to differentiate |
+| **5. PEST Analysis** | Market & Environment Analysis | Understand macro-environmental forces (Political, Economic, Social, Technological) | Identifies external trends that may affect market dynamics or opportunities |
+| **6. SWOT Analysis** | Market & Environment Analysis | Map internal strengths/weaknesses and external opportunities/threats | Enables strategic alignment and risk assessment |
+| **7. Value Proposition Canvas (VPC)** | Value Design | Match customer jobs, pains, and gains with your offering | Ensures the product/service solves real, valuable problems for the customer |
+| **8. Business Model Canvas (BMC)** | Value Design | Visualize how your business creates, delivers, and captures value | Aligns value proposition with channels, partners, revenue streams, etc |
+| **9. [Working Backwards (Press Release + FAQ)](./the_amazon_working_backwards_method.md)** | Value Design | Clarify the customer outcome and reverse-engineer the solution | Forces you to validate desirability and clarity before building anything |
+| **10. MVP Design** | Hypothesis Testing & Execution | Build a minimal version to test your assumptions | Helps reduce risk and validate product-market fit early on |
+| **11. Lean Canvas** | Hypothesis Testing & Execution | Simplify the business model for rapid experimentation | Ideal for startups or innovation teams needing fast iteration |
+| **12. TOWS Matrix** | Strategy Evaluation & Optimization | Convert SWOT insights into actionable strategies | Bridges the gap between analysis and concrete decisions |
+| **13. Advantage Matrix** | Strategy Evaluation & Optimization | Categorize business units based on type and sustainability of competitive advantage | Helps determine investment priority and strategic posture |
 
-SWOP is __effictive when organizing your business's current situation or
-considering its direction__.
+## General Purpose Framework
 
-- Strengths
-- Weaknesses
-- Opportunities
-    - External environmental changes that may be advantageous to your
-      business
-        - PEST
-        - Market Trend
-        - Needs
-        - Competitor
-- Threats
-    - External environmental changes that may be disadvantageous to your
-      business
-        - Same as Opportunities
+- 6W2H
+  - When
+  - Where
+  - Who
+  - Whom
+  - What
+  - Why
+  - How
+  - How much
 
-## Five Forces
-
-5F can be used to understand the competitive factors in the industry
-structure. Especially, tt is __useful when considering whether to enter
-a new market or how to compete in an existing market__.
+- QCD: Quality, Cost, Delivery
