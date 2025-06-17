@@ -1,79 +1,37 @@
 # Business Framework
 
-Asking AI chatbot about the suitable business framework for your
-situation is a good starting point.
+## Design a new business
 
-## 6W2H
+If you don't have any basic idea yet, refer to
+[idea_creation.md](./idea_creation.md).
 
-- When
-- Where
-- Who
-- Whom
-- What
-- Why
-- How
-- How much
+Let's see the concrete example of the steps to design a new business.
 
-## QCD: Quality, Cost, Delivery
+| **Step** | **Category** | **Purpose** | **Reason/Why It Matters** |
+| ---- | ---- | ---- | ---- |
+| **1. Persona Development** | Customer Understanding | Define target customers clearly | Helps focus on specific segments, needs, and behavior patterns |
+| **2. JTBD: Jobs to Be Done** | Customer Understanding | Understand the deeper "why" behind customer behavior | Reveals unmet needs and emotional drivers behind purchasing decisions |
+| **3. Customer Journey Mapping** | Customer Understanding | Visualize the full experience from the customer’s perspective | Identifies pain points, opportunities, and key touchpoints for value delivery |
+| **4. 3C Analysis (Company, Customer, Competitor)** | Market & Environment Analysis | Evaluate internal capabilities, customer needs, and market position | Helps determine where you can win and how to differentiate |
+| **5. PEST Analysis** | Market & Environment Analysis | Understand macro-environmental forces (Political, Economic, Social, Technological) | Identifies external trends that may affect market dynamics or opportunities |
+| **6. SWOT Analysis** | Market & Environment Analysis | Map internal strengths/weaknesses and external opportunities/threats | Enables strategic alignment and risk assessment |
+| **7. Value Proposition Canvas (VPC)** | Value Design | Match customer jobs, pains, and gains with your offering | Ensures the product/service solves real, valuable problems for the customer |
+| **8. Business Model Canvas (BMC)** | Value Design | Visualize how your business creates, delivers, and captures value | Aligns value proposition with channels, partners, revenue streams, etc |
+| **9. [Working Backwards (Press Release + FAQ)](./the_amazon_working_backwards_method.md)** | Value Design | Clarify the customer outcome and reverse-engineer the solution | Forces you to validate desirability and clarity before building anything |
+| **10. MVP Design** | Hypothesis Testing & Execution | Build a minimal version to test your assumptions | Helps reduce risk and validate product-market fit early on |
+| **11. Lean Canvas** | Hypothesis Testing & Execution | Simplify the business model for rapid experimentation | Ideal for startups or innovation teams needing fast iteration |
+| **12. TOWS Matrix** | Strategy Evaluation & Optimization | Convert SWOT insights into actionable strategies | Bridges the gap between analysis and concrete decisions |
+| **13. Advantage Matrix** | Strategy Evaluation & Optimization | Categorize business units based on type and sustainability of competitive advantage | Helps determine investment priority and strategic posture |
 
-- Quality
-- Cost
-- Delivery
+## General Purpose Framework
 
-## 3C: Customer, Competitor, Company
-
-3C provides an overview of the market and business environment, which
-__can be used for planning strategy and identifying issues__.
-
-- Customer
-    - Target Customer
-    - Needs
-    - Market Size
-    - Trends
-- Competitor
-    - 4P
-    - Marketing Strategy
-    - Market Share
-    - Strength and Weakness
-- Company
-    - Same as Competitor
-
-## 4P: Product, Price, Place, Promotion
-
-4P is __useful in the execution phase__. You can use 3C for planning
-strategy and use 4P for designing the execution plan.
-
-## PEST
-
-We can analyze macro environments with PEST. It's __useful for long-term
-strategy, industry trends, external risk assessment, etc__.
-
-- Politics
-- Economy
-- Society
-- Technology
-
-## SWOT
-
-SWOP is __effictive when organizing your business's current situation or
-considering its direction__.
-
-- Strengths
-- Weaknesses
-- Opportunities
-    - External environmental changes that may be advantageous to your
-      business
-        - PEST
-        - Market Trend
-        - Needs
-        - Competitor
-- Threats
-    - External environmental changes that may be disadvantageous to your
-      business
-        - Same as Opportunities
-
-## Five Forces
-
-5F can be used to understand the competitive factors in the industry
-structure. Especially, tt is __useful when considering whether to enter
-a new market or how to compete in an existing market__.
+- 6W2H
+  - When
+  - Where
+  - Who
+  - Whom
+  - What
+  - Why
+  - How
+  - How much
+- QCD: Quality, Cost, Delivery
