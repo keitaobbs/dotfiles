@@ -1,0 +1,75 @@
+@startuml
+title "Android Verified Boot (AVB) - Factory to Runtime"
+
+start
+
+group Factory / Provisioning (The Birth of Trust) {
+    :Generate OEM Root Key Pair (RSA/ECDSA);
+    note right: Private Key is kept in a Secure HSM.
+    :Calculate SHA-256 of **OEM Public Key**;
+    :Blow eFuses with OEM Public Key Hash (**OEM_PK_HASH**);
+    note right: This makes the Root of Trust immutable.
+    :Sign all firmware (XBL, ABL, VBMeta) with OEM Private Key;
+    :Flash signed images to UFS/eMMC storage;
+}
+
+:User Powers On Device;
+
+group Hardware Root of Trust (PBL/ROM) {
+    :Mask ROM starts;
+    :Read **OEM_PK_HASH** from eFuses;
+    :Verify **Bootstrap (XBL/SBL)** signature using eFuse hash;
+}
+
+group Bootstrap Hardware Init (XBL/SBL) {
+    :Verify **Android Bootloader (ABL)** signature;
+    note right: Still using the hardware-anchored trust.
+}
+
+group Android Bootloader (ABL / AVB Phase) {
+    :Load **Main VBMeta** Partition;
+    :Verify VBMeta PubKey against **OEM_PK_HASH**;
+    if (Valid?) then (Yes)
+        :Verify VBMeta Signature;
+        :Check Rollback Index in RPMB;
+    else (No)
+        stop
+    endif
+
+    partition "Early Partition Verification" {
+        :Verify **boot**, **init_boot**, **vendor_boot**;
+        note right: SHA-256 Hash check of the entire payload.
+    }
+
+    partition "Final Handoff Prep" {
+        :Prepare bootconfig with **vbmeta.digest**;
+        :Patch **Device Tree (FDT)** in RAM with VBMeta address;
+        note right: ABL writes the physical RAM pointer into FDT.
+        :Set CPU Register x0 = FDT Address;
+    }
+    :Jump to Kernel;
+}
+
+group Linux Kernel (dm-verity) {
+    partition "First Stage Init (VBMeta Validation)" {
+        :Read **vbmeta.digest** from bootconfig;
+        :Locate VBMeta in RAM via **Device Tree (FDT)**;
+        note right: Kernel reads FDT to find the VBMeta pointer.
+        :Calculate Hash of VBMeta in RAM;
+        if (Calculated Hash == **vbmeta.digest**?) then (Match)
+            :Trust the Root Hashes inside VBMeta;
+        else (Mismatch)
+            stop
+            note left: Critical Error: Memory Tampering Detected
+        endif
+    }
+
+    :Mount **system**, **vendor**, etc.;
+    partition "Runtime Block Verification" {
+        :Verify 4KB blocks against Merkle Tree on-access;
+        note right: Root Hash from VBMeta is the trust anchor.
+    }
+}
+
+end
+@enduml
