@@ -1,0 +1,19 @@
+theme = "papercolor-dark"
+
+[keys.insert]
+j = { j = "normal_mode" }
+
+[keys.normal]
+";" = "command_mode"
+":" = "collapse_selection"
+"H" = "goto_first_nonwhitespace"
+"L" = "goto_line_end"
+"J" = "goto_next_paragraph"
+"K" = "goto_prev_paragraph"
+"V" = ["extend_line", "select_mode"]
+
+[keys.select]
+"H" = "goto_first_nonwhitespace"
+"L" = "goto_line_end"
+"J" = "goto_next_paragraph"
+"K" = "goto_prev_paragraph"

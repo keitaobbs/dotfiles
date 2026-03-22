@@ -35,4 +35,8 @@ if [ ! -e $HOME/.config/efm-langserver/config.yaml ] ; then
     ln -sv $HOME/dotfiles/efm-langserver/config.yaml $HOME/.config/efm-langserver/config.yaml
 fi
 
+if [ ! -e $HOME/.config/helix ] ; then
+    ln -sv $(pwd)/helix $HOME/.config/helix
+fi
+
 echo "Installation succeeded"
