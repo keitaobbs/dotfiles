@@ -14,7 +14,7 @@ if [ ! -e $HOME/.fzf ] ; then
     $HOME/.fzf/install --no-key-bindings --no-completion --no-update-rc
 fi
 
-DOT_FILES=(".zshrc" ".vimrc" ".tmux.conf" ".ctags" ".ackrc")
+DOT_FILES=(".zshrc" ".vimrc" ".tmux.conf" ".ctags" ".ackrc" ".clang-format")
 for file in ${DOT_FILES[@]}
 do
     if [ ! -e $HOME/$file ] ; then
