@@ -85,6 +85,7 @@ qemu-system-aarch64 \
   -M virt \
   -cpu max \
   -enable-kvm \
+  -snapshot \
   -netdev user,id=net0,hostfwd=tcp::2222-:22 \
   -device virtio-net-pci,netdev=net0 \
   -bios /usr/share/qemu-efi-aarch64/QEMU_EFI.fd \
@@ -115,30 +116,54 @@ To run specialized workloads, you may need to replace the standard Ubuntu Cloud 
 We build the kernel from the official Ubuntu Noble (24.04) source. We use the `generic` flavor as a base configuration to ensure all standard features and hardware supports are included. We also disable kernel signing constraints to allow the self-built kernel to boot without official Ubuntu certificates.
 
 ```bash
-# Clone the Ubuntu Noble kernel source
-git clone git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/noble; cd noble
-export $(dpkg-architecture -a arm64)
+ubuntu_base_url="http://jp.archive.ubuntu.com/ubuntu"
+ubuntu_security_base_url="http://security.ubuntu.com/ubuntu"
+pool_dir="pool/main/l/linux"
+ksrc_base_url="${ubuntu_base_url}/${pool_dir}"
+ksrc_security_base_url="${ubuntu_security_base_url}/${pool_dir}"
+ubuntu_kver="6.8.0-106.106"
+dsc_file="linux_${ubuntu_kver}.dsc"
+orig_ksrc_file="linux_${ubuntu_kver%%-*}.orig.tar.gz"
+diff_ksrc_file="linux_${ubuntu_kver}.diff.gz"
+
+wget "${ksrc_security_base_url}/${dsc_file}" || \
+wget "${ksrc_base_url}/${dsc_file}"
+
+wget "${ksrc_security_base_url}/${orig_ksrc_file}" || \
+wget "${ksrc_base_url}/${orig_ksrc_file}"
+
+wget "${ksrc_security_base_url}/${diff_ksrc_file}" || \
+wget "${ksrc_base_url}/${diff_ksrc_file}"
+
+dpkg-source --require-strong-checksums --extract "${dsc_file}"
+pushd "linux-${ubuntu_kver%-*}" > /dev/null
+
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-gnu-
+eval "$(dpkg-architecture -a arm64 -s)"
 
-# Add my flavour to the flavours list
-vim debian.master/rules.d/arm64.mk
-# Add my flavour to FLAVOURS
-vim debian.master/config/annotations
-# Create my flavour control file
-cat << EOF > debian.master/control.d/vars.myflavour
+custom_flavour="custom"
+ubuarch_flavour="arm64-${custom_flavour}"
+
+# Add custom flavour
+sed -i "/^flavours[[:space:]]*=/ s/$/ ${custom_flavour}/" debian.master/rules.d/arm64.mk
+sed -i "/^# FLAVOUR:/ s/$/ ${ubuarch_flavour}/" debian.master/config/annotations
+cp debian.master/control.d/generic.inclusion-list debian.master/control.d/${custom_flavour}.inclusion-list
+cat << EOF > debian.master/control.d/vars.${custom_flavour}
 arch="arm64"
-supported="My Flavour"
+supported="Custom Flavour"
 target="Geared toward my special usecase."
 desc="=HUMAN= SMP"
 bootloader="grub-efi-arm64 [arm64] | flash-kernel [arm64]"
 provides="kvm-api-4, redhat-cluster-modules, ivtv-modules, virtualbox-guest-modules"
 EOF
-# Create my flavour inclusion list
-cp debian.master/control.d/generic.inclusion-list debian.master/control.d/myflavour.inclusion-list
 
-# Extract the standard Ubuntu (generic) configuration
-./debian/scripts/misc/annotations --arch $ARCH --flavour generic --export > .config
+chmod a+x debian/rules
+chmod a+x debian/scripts/*
+chmod a+x debian/scripts/misc/*
+
+# Use generic flavour as a base configuration
+./debian/scripts/misc/annotations --arch arm64 --flavour generic --export > .config
 
 # Disable trusted key requirements for self-built packages
 scripts/config --disable SYSTEM_TRUSTED_KEYS
@@ -146,15 +171,15 @@ scripts/config --disable SYSTEM_REVOCATION_KEYS
 scripts/config --set-str CONFIG_SYSTEM_TRUSTED_KEYS ""
 scripts/config --set-str CONFIG_SYSTEM_REVOCATION_KEYS ""
 
-# Import current config as my flavour
-./debian/scripts/misc/annotations --arch $ARCH --flavour myflavour --import .config
+# Import current config as custom flavour
+./debian/scripts/misc/annotations --arch arm64 --flavour ${custom_flavour} --import .config
 
-# Build as Debian packages (.deb)
-# Use 'fakeroot debian/rules' instead of 'make bindeb-pkg' to enable Ubuntu's
-# official package splitting (e.g., separating main 'modules' from 'modules-extra').
+# Build the kernel and generate Debian packages
 make mrproper
 fakeroot debian/rules clean
-fakeroot debian/rules binary-myflavour
+fakeroot debian/rules binary-${custom_flavour}
+
+popd > /dev/null
 ```
 
 ### 2. Injecting the Kernel into the Cloud Image
@@ -162,9 +187,11 @@ fakeroot debian/rules binary-myflavour
 Since the Cloud Image uses a multi-partition layout, we must mount the partitions in a nested structure before using `chroot` to install the kernel. This ensures that the kernel and GRUB files are written to the correct physical locations (Partition 16 and 15).
 
 ```bash
+ubuntu_cloud_image=uci.raw
+
 # Setup loopback device for the raw image
-sudo losetup -fP noble.raw
-LOOP_DEV=$(losetup -j noble.raw | cut -d':' -f1)
+sudo losetup -fP "${ubuntu_cloud_image}"
+LOOP_DEV=$(losetup -j "${ubuntu_cloud_image}" | cut -d':' -f1)
 
 # Create mount points and establish the nested hierarchy
 mkdir -p mnt_root
@@ -181,7 +208,7 @@ done
 sudo cp linux-*.deb mnt_root/tmp
 
 # Execute updates within the chroot environment
-sudo chroot mnt_root /bin/bash <<EOF
+sudo chroot mnt_root /bin/bash <<'EOF'
 # Cleanup old kernel files to save space
 rm -f /boot/vmlinuz* /boot/initrd.img* /boot/config* /boot/System.map*
 rm -rf /lib/modules/*
@@ -190,12 +217,14 @@ rm -rf /lib/modules/*
 dpkg -i /tmp/linux-*.deb
 
 # Regenerate the RAMDisk and update the GRUB menu
+echo "GRUB_DEVICE='LABEL=cloudimg-rootfs'" >> /etc/default/grub
 update-initramfs -c -k all
 update-grub
+sed -i '/GRUB_DEVICE=/d' /etc/default/grub
 EOF
 
 # Cleanup and unmount
-sudo rm mnt_root/tmp/kernel.deb
+sudo rm mnt_root/tmp/linux-*.deb
 sudo umount -R mnt_root
 sudo losetup -d ${LOOP_DEV}
 ```
